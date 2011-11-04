@@ -227,18 +227,25 @@ bool writeBGEO(const char* filename,const ParticlesData& p,const bool compressed
             foundPosition=true;
         }else{
             writeHoudiniStr(*output,attr.name);
-            int houdiniType=0;
-            switch(attr.type){
-                case FLOAT: houdiniType=0;break;
-                case INT: houdiniType=1;break;
-                case VECTOR: houdiniType=5;break;
-                case NONE: assert(false);houdiniType=0;break;
-            }
-            unsigned short size=attr.count;
-            write<BIGEND>(*output,size,houdiniType);
-            for(int i=0;i<attr.count;i++){
-                int defaultValue=0;
-                write<BIGEND>(*output,defaultValue);
+            if(attr.type==STRING){
+                int houdiniType=4;
+                write<BIGEND>(*output,attr.count,houdiniType);
+            }else{
+                int houdiniType=0;
+                switch(attr.type){
+                    case FLOAT: houdiniType=0;break;
+                    case INT: houdiniType=1;break;
+                    case VECTOR: houdiniType=5;break;
+                        // TODO: implement STRING 
+                    case STRING: assert(false); break;
+                    case NONE: assert(false);houdiniType=0;break;
+                }
+                unsigned short size=attr.count;
+                write<BIGEND>(*output,size,houdiniType);
+                for(int i=0;i<attr.count;i++){
+                    int defaultValue=0;
+                    write<BIGEND>(*output,defaultValue);
+                }
             }
             attrOffsets.push_back(particleSize);
             particleSize+=attr.count;

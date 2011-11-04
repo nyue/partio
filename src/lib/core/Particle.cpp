@@ -42,6 +42,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 #include <cassert>
 namespace Partio{
 
+ParticlesDataMutable::~ParticlesDataMutable()
+{}
+
 std::string
 TypeName(ParticleAttributeType attrType)
 {
@@ -50,18 +53,6 @@ TypeName(ParticleAttributeType attrType)
         case VECTOR: return "VECTOR";
         case FLOAT: return "FLOAT";
         case INT: return "INT";
-        default: return 0;
-    }
-}
-
-int
-TypeSize(ParticleAttributeType attrType)
-{
-    switch(attrType){
-        case NONE: return 0;
-        case VECTOR: return sizeof(float);
-        case FLOAT: return sizeof(float);
-        case INT: return sizeof(int);
         default: return 0;
     }
 }
@@ -116,6 +107,9 @@ print(const ParticlesData* particles)
                 break;
             case INT:
                 for(int c=0;c<attrs[k].count;c++) std::cout<<accessors[k].raw<int>(it)[c];
+                break;
+            case STRING:
+                for(int c=0;c<attrs[k].count;c++) std::cout<<accessors[k].raw<Token>(it)[c].str();
                 break;
             }
         }

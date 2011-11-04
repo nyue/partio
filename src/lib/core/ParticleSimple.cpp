@@ -68,7 +68,6 @@ release() const
     freeCached(const_cast<ParticlesSimple*>(this));
 }
 
-
 int ParticlesSimple::
 numParticles() const
 {
@@ -313,3 +312,47 @@ dataAsFloat(const ParticleAttribute& attribute,const int indexCount,
     }
 }
 
+
+dataAsFloat(const ParticleAttribute& attribute,const int indexCount,
+        const ParticleIndex* particleIndices,const bool sorted,float* values) const
+{
+
+}
+
+int ParticlesSimple::
+registerIndexedStr(const ParticleAttribute& attribute,const char* str)
+{
+    IndexedStrTable& table=attributeIndexedStrs[attribute.attributeIndex];
+    std::map<std::string,int>::const_iterator it=table.stringToIndex.find(str);
+    if(it!=table.stringToIndex.end()) return it->second;
+    int newIndex=table.strings.size();
+    table.strings.push_back(str);
+    table.stringToIndex[str]=newIndex;
+    return newIndex;
+}
+
+const std::vector<std::string>& ParticlesSimple::
+indexedStrs(const ParticularAttribute& attr) const
+{
+    IndexedStrTable& table=attributeIndexedStrs[attribute.attributeIndex];
+    return table.strings;
+}
+
+std::set<Token>::const_iterator ParticleHeaders::
+tokensBegin(const ParticleAttribute& attr) const
+{
+    return attributeTokens[attr.attributeIndex].begin();
+}
+
+std::set<Token>::const_iterator ParticleHeaders::
+tokensEnd(const ParticleAttribute& attr) const
+{
+    return attributeTokens[attr.attributeIndex].end();
+}
+
+Token ParticlesSimple::tokenizeString(const ParticleAttribute& attribute,const char* str)
+{
+    if(attribute.type != STRING){
+        return Token::create("<invalid>");
+    }
+}
