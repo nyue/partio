@@ -52,7 +52,7 @@ protected:
     bool attributeInfo(const int attributeInfo,ParticleAttribute& attribute) const;
 
     int registerIndexedStr(const ParticleAttribute& attribute,const char* str);
-    const std::vector<std::string>& indexedStrs(const ParticularAttribute& attr) const;
+    const std::vector<std::string>& indexedStrs(const ParticleAttribute& attr) const;
 
     virtual void dataAsFloat(const ParticleAttribute& attribute,const int indexCount,
         const ParticleIndex* particleIndices,const bool sorted,float* values) const;

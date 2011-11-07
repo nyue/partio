@@ -202,6 +202,7 @@ addAttribute(const char* attribute,ParticleAttributeType type,const int count)
     char* dataPointer=(char*)malloc(allocatedCount*stride);
     attributeData.push_back(dataPointer);
     attributeOffsets.push_back(dataPointer-(char*)0);
+    attributeIndexedStrs.push_back(IndexedStrTable());
 
     return attr;
 }
@@ -312,13 +313,6 @@ dataAsFloat(const ParticleAttribute& attribute,const int indexCount,
     }
 }
 
-
-dataAsFloat(const ParticleAttribute& attribute,const int indexCount,
-        const ParticleIndex* particleIndices,const bool sorted,float* values) const
-{
-
-}
-
 int ParticlesSimple::
 registerIndexedStr(const ParticleAttribute& attribute,const char* str)
 {
@@ -332,27 +326,9 @@ registerIndexedStr(const ParticleAttribute& attribute,const char* str)
 }
 
 const std::vector<std::string>& ParticlesSimple::
-indexedStrs(const ParticularAttribute& attr) const
+indexedStrs(const ParticleAttribute& attr) const
 {
-    IndexedStrTable& table=attributeIndexedStrs[attribute.attributeIndex];
+    const IndexedStrTable& table=attributeIndexedStrs[attr.attributeIndex];
     return table.strings;
 }
 
-std::set<Token>::const_iterator ParticleHeaders::
-tokensBegin(const ParticleAttribute& attr) const
-{
-    return attributeTokens[attr.attributeIndex].begin();
-}
-
-std::set<Token>::const_iterator ParticleHeaders::
-tokensEnd(const ParticleAttribute& attr) const
-{
-    return attributeTokens[attr.attributeIndex].end();
-}
-
-Token ParticlesSimple::tokenizeString(const ParticleAttribute& attribute,const char* str)
-{
-    if(attribute.type != STRING){
-        return Token::create("<invalid>");
-    }
-}

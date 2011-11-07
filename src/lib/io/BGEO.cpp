@@ -109,6 +109,7 @@ ParticlesDataMutable* readBGEO(const char* filename,const bool headersOnly)
         read<BIGEND>(*input,nameLength);
         char* name=new char[nameLength+1];
         input->read(name,nameLength);name[nameLength]=0;
+        std::cerr<<"testingattribute "<<name<<std::endl;
         unsigned short size;
         int houdiniType;
         read<BIGEND>(*input,size,houdiniType);
@@ -227,17 +228,23 @@ bool writeBGEO(const char* filename,const ParticlesData& p,const bool compressed
             foundPosition=true;
         }else{
             writeHoudiniStr(*output,attr.name);
-            if(attr.type==STRING){
+            if(attr.type==INDEXEDSTR){
+                std::cerr<<"writing string "<<attr.name<<std::endl;
                 int houdiniType=4;
-                write<BIGEND>(*output,attr.count,houdiniType);
+                const std::vector<std::string>& indexTable=p.indexedStrs(attr);
+                int numIndexes=indexTable.size();
+                write<BIGEND>(*output,attr.count,houdiniType,numIndexes);
+                for(int i=0;i<numIndexes;i++)
+                    writeHoudiniStr(*output,indexTable[i]);
             }else{
+                std::cerr<<"writing other "<<attr.name<<std::endl;
                 int houdiniType=0;
                 switch(attr.type){
                     case FLOAT: houdiniType=0;break;
                     case INT: houdiniType=1;break;
                     case VECTOR: houdiniType=5;break;
                         // TODO: implement STRING 
-                    case STRING: assert(false); break;
+                    case INDEXEDSTR:
                     case NONE: assert(false);houdiniType=0;break;
                 }
                 unsigned short size=attr.count;

@@ -94,14 +94,14 @@ sort()
 }
 
 
-int ParticlesSimple::
+int ParticleHeaders::
 registerIndexedStr(const ParticleAttribute& attribute,const char* str)
 {
     assert(false);
 }
 
-const std::vector<std::string>& ParticlesSimple::
-indexedStrs(const ParticularAttribute& attr) const
+const std::vector<std::string>& ParticleHeaders::
+indexedStrs(const ParticleAttribute& attr) const
 {
     assert(false);
 }

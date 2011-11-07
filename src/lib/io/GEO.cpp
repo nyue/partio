@@ -248,6 +248,7 @@ bool writeGEO(const char* filename,const ParticlesData& p,const bool compressed)
                 case VECTOR: typestring="vector";break;
                 case FLOAT: typestring="float";break;
                 case INT: typestring="int";break;
+                case INDEXEDSTR: typestring="index";break;
             }
             *output<<attrib.name<<" "<<attrib.count<<" "<<typestring;
             for(int k=0;k<attrib.count;k++) *output<<" "<<0;

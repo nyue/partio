@@ -108,8 +108,8 @@ print(const ParticlesData* particles)
             case INT:
                 for(int c=0;c<attrs[k].count;c++) std::cout<<accessors[k].raw<int>(it)[c];
                 break;
-            case STRING:
-                for(int c=0;c<attrs[k].count;c++) std::cout<<accessors[k].raw<Token>(it)[c].str();
+            case INDEXEDSTR:
+                for(int c=0;c<attrs[k].count;c++) std::cout<<accessors[k].raw<int>(it)[c];
                 break;
             }
         }
